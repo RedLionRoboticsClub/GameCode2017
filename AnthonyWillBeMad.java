@@ -56,7 +56,7 @@ import com.qualcomm.robotcore.util.Range;
 public class AnthonyWillBeMad extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareK9bot   robot           = new HardwareK9bot();              // Use a K9'shardware
+    HardwareK9bot2   robot           = new HardwareK9bot2();              // Use a K9'shardware
     double          armPosition     = robot.ARM_HOME;                   // Servo safe position
  //   double          clawPosition    = robot.CLAW_HOME;                  // Servo safe position
   //  final double    CLAW_SPEED      = 0.01 ;                            // sets rate to move servo
@@ -83,22 +83,53 @@ public class AnthonyWillBeMad extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-            left = -gamepad1.left_stick_y;
-            right = -gamepad1.right_stick_y;
-            robot.leftDrive.setPower(left);
-            robot.rightDrive.setPower(right);
+            if (gamepad1.right_bumper) {
+
+                robot.motorFR.setPower(-1);
+                robot.motorFL.setPower(1);
+                robot.motorBL.setPower(-1);
+                robot.motorBR.setPower(1);
+            }
+
+            else if (gamepad1.left_bumper) {
+                robot.motorFR.setPower(1);
+                robot.motorFL.setPower(-1);
+                robot.motorBL.setPower(1);
+                robot.motorBR.setPower(-1);
+            }
+
+
+            else
+
+            {
+                float yValue = gamepad1.left_stick_y;
+
+                float xValue = gamepad1.right_stick_y;
+
+                ///the usadjieiwebiqeuhowfeodfqwiwewenqwnrnower jkdfnasikjfmxbnc liawekjsmhdbf iukjqd
+
+
+                xValue = Range.clip(xValue, -1, 1);
+                yValue = Range.clip(yValue, -1, 1);
+
+
+                robot.motorFL.setPower(-yValue);
+                robot.motorBL.setPower(-yValue);
+                robot.motorFR.setPower(-xValue);
+                robot.motorBR.setPower(-xValue);
+            }
 
             // Use gamepad Y & A raise and lower the arm
-            if (gamepad1.a)
-                armPosition += ARM_SPEED;
-            else if (gamepad1.y)
-                armPosition -= ARM_SPEED;
+           // if (gamepad1.right_bumper)
+         //       armPosition += ARM_SPEED;
+       //     else if (gamepad1.left_bumper)
+     //           armPosition -= ARM_SPEED;
 
             // Use gamepad X & B to open and close the claw
-      //      if (gamepad1.x)
-        //        clawPosition += CLAW_SPEED;
-          //  else if (gamepad1.b)
-            //    clawPosition -= CLAW_SPEED;
+            if (gamepad1.x)
+                armPosition += ARM_SPEED;
+            else if (gamepad1.b)
+                armPosition -= ARM_SPEED;
 
             // Move both servos to new position.
             armPosition  = Range.clip(armPosition, robot.ARM_MIN_RANGE, robot.ARM_MAX_RANGE);
@@ -109,8 +140,6 @@ public class AnthonyWillBeMad extends LinearOpMode {
             // Send telemetry message to signify robot running;
             telemetry.addData("arm",   "%.2f", armPosition);
           //  telemetry.addData("claw",  "%.2f", clawPosition);
-            telemetry.addData("left",  "%.2f", left);
-            telemetry.addData("right", "%.2f", right);
             telemetry.update();
 
             // Pause for 40 mS each cycle = update 25 times a second.
@@ -118,3 +147,4 @@ public class AnthonyWillBeMad extends LinearOpMode {
         }
     }
 }
+

@@ -56,7 +56,7 @@ import com.qualcomm.robotcore.util.Range;
 public class AnthonyWillBeMad extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareK9bot2   robot           = new HardwareK9bot2();              // Use a K9'shardware
+   HardwareK9bot2 robot           = new HardwareK9bot2();              // Use a K9'shardware
     double          armPosition     = robot.ARM_HOME;                   // Servo safe position
  //   double          clawPosition    = robot.CLAW_HOME;                  // Servo safe position
   //  final double    CLAW_SPEED      = 0.01 ;                            // sets rate to move servo
@@ -98,10 +98,7 @@ public class AnthonyWillBeMad extends LinearOpMode {
                 robot.motorBR.setPower(-1);
             }
 
-
-            else
-
-            {
+            else {
                 float yValue = gamepad1.left_stick_y;
 
                 float xValue = gamepad1.right_stick_y;
@@ -117,7 +114,23 @@ public class AnthonyWillBeMad extends LinearOpMode {
                 robot.motorBL.setPower(-yValue);
                 robot.motorFR.setPower(-xValue);
                 robot.motorBR.setPower(-xValue);
+                }
+
+            if (gamepad1.a) {
+                robot.motorArm.setPower(-1);
             }
+
+            else if (gamepad1.b) {
+                robot.motorArm.setPower(1);
+            }
+
+            else {
+                robot.motorArm.setPower(0);
+            }
+
+        }
+
+
 
             // Use gamepad Y & A raise and lower the arm
            // if (gamepad1.right_bumper)
@@ -128,7 +141,7 @@ public class AnthonyWillBeMad extends LinearOpMode {
             // Use gamepad X & B to open and close the claw
             if (gamepad1.x)
                 armPosition += ARM_SPEED;
-            else if (gamepad1.b)
+            else if (gamepad1.y)
                 armPosition -= ARM_SPEED;
 
             // Move both servos to new position.
@@ -144,7 +157,7 @@ public class AnthonyWillBeMad extends LinearOpMode {
 
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
-        }
-    }
-}
 
+        }
+
+    }

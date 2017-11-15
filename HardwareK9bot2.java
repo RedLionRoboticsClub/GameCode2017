@@ -59,7 +59,8 @@ public class HardwareK9bot2
     public DcMotor  motorFR   = null;
     public DcMotor  motorBL   = null;
     public DcMotor  motorBR   = null;
-    public Servo    arm         = null;
+    public DcMotor  motorArm  = null;
+    public Servo    arm       = null;
     //public Servo    claw        = null;
 
     public final static double ARM_HOME = 0.2;
@@ -87,6 +88,7 @@ public class HardwareK9bot2
         motorFR = hwMap.get(DcMotor.class, "motorFR");
         motorBL = hwMap.get(DcMotor.class, "motorBL");
         motorBR = hwMap.get(DcMotor.class, "motorBR");
+        motorArm = hwMap.get(DcMotor.class, "motorArm");
         motorFR.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
 
@@ -95,6 +97,7 @@ public class HardwareK9bot2
         motorFR.setPower(0);
         motorBL.setPower(0);
         motorBR.setPower(0);
+        motorArm.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -102,6 +105,7 @@ public class HardwareK9bot2
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
         arm  = hwMap.get(Servo.class, "crservo");

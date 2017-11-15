@@ -83,19 +83,19 @@ public class AnthonyWillBeMad extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-            if (gamepad1.right_bumper) {
+            if (gamepad1.right_trigger > 0) {
 
-                robot.motorFR.setPower(-1);
-                robot.motorFL.setPower(1);
-                robot.motorBL.setPower(-1);
-                robot.motorBR.setPower(1);
+                robot.motorFR.setPower(-0.5);
+                robot.motorFL.setPower(0.5);
+                robot.motorBL.setPower(-0.5);
+                robot.motorBR.setPower(0.5);
             }
 
-            else if (gamepad1.left_bumper) {
-                robot.motorFR.setPower(1);
-                robot.motorFL.setPower(-1);
-                robot.motorBL.setPower(1);
-                robot.motorBR.setPower(-1);
+            else if (gamepad1.left_trigger > 0) {
+                robot.motorFR.setPower(0.5);
+                robot.motorFL.setPower(-0.5);
+                robot.motorBL.setPower(0.5);
+                robot.motorBR.setPower(-0.5);
             }
 
             else {
@@ -109,50 +109,84 @@ public class AnthonyWillBeMad extends LinearOpMode {
                 xValue = Range.clip(xValue, -1, 1);
                 yValue = Range.clip(yValue, -1, 1);
 
-
-                robot.motorFL.setPower(-yValue);
-                robot.motorBL.setPower(-yValue);
-                robot.motorFR.setPower(-xValue);
-                robot.motorBR.setPower(-xValue);
+                if (gamepad1.left_bumper) {
+                    robot.motorFL.setPower(-yValue/2);
+                    robot.motorBL.setPower(-yValue/2);
+                    robot.motorFR.setPower(-xValue/2);
+                    robot.motorBR.setPower(-xValue/2);
                 }
 
-            if (gamepad1.a) {
-                robot.motorArm.setPower(-1);
+                else if (gamepad1.right_bumper) {
+                    robot.motorFL.setPower(-yValue/4);
+                    robot.motorBL.setPower(-yValue/4);
+                    robot.motorFR.setPower(-xValue/4);
+                    robot.motorBR.setPower(-xValue/4);
+                }
+
+                else {
+                    robot.motorFL.setPower(-yValue);
+                    robot.motorBL.setPower(-yValue);
+                    robot.motorFR.setPower(-xValue);
+                    robot.motorBR.setPower(-xValue);
+                }
+
+                }
+            if (gamepad2.left_bumper) {
+                if (gamepad2.a) {
+                    robot.motorArm.setPower(-0.5);
+                } else if (gamepad2.b) {
+                    robot.motorArm.setPower(0.5);
+                } else {
+                    robot.motorArm.setPower(0);
+                }
             }
 
-            else if (gamepad1.b) {
-                robot.motorArm.setPower(1);
+            else if (gamepad2.right_bumper) {
+                if (gamepad2.a) {
+                    robot.motorArm.setPower(-0.25);
+                } else if (gamepad2.b) {
+                    robot.motorArm.setPower(0.25);
+                } else {
+                    robot.motorArm.setPower(0);
+                }
             }
 
             else {
-                robot.motorArm.setPower(0);
+                if (gamepad2.a) {
+                    robot.motorArm.setPower(-1);
+                } else if (gamepad2.b) {
+                    robot.motorArm.setPower(1);
+                } else {
+                    robot.motorArm.setPower(0);
+                }
             }
 
-        }
 
 
 
             // Use gamepad Y & A raise and lower the arm
-           // if (gamepad1.right_bumper)
-         //       armPosition += ARM_SPEED;
-       //     else if (gamepad1.left_bumper)
-     //           armPosition -= ARM_SPEED;
+            // if (gamepad1.right_bumper)
+            // armPosition += ARM_SPEED;
+            // else if (gamepad1.left_bumper)
+            // armPosition -= ARM_SPEED;
 
-            // Use gamepad X & B to open and close the claw
-            if (gamepad1.x)
+            // Use gamepad X & Y to open and close the claw
+            if (gamepad2.x) {
                 armPosition += ARM_SPEED;
-            else if (gamepad1.y)
+            }
+            else if (gamepad2.y) {
                 armPosition -= ARM_SPEED;
+            }
 
             // Move both servos to new position.
             armPosition  = Range.clip(armPosition, robot.ARM_MIN_RANGE, robot.ARM_MAX_RANGE);
             robot.arm.setPosition(armPosition);
-           // clawPosition = Range.clip(clawPosition, robot.CLAW_MIN_RANGE, robot.CLAW_MAX_RANGE);
-           // robot.claw.setPosition(clawPosition);
+            // clawPosition = Range.clip(clawPosition, robot.CLAW_MIN_RANGE, robot.CLAW_MAX_RANGE);
+            // robot.claw.setPosition(clawPosition);
 
             // Send telemetry message to signify robot running;
             telemetry.addData("arm",   "%.2f", armPosition);
-          //  telemetry.addData("claw",  "%.2f", clawPosition);
+            // telemetry.addData("claw",  "%.2f", clawPosition);
             telemetry.update();
 
             // Pause for 40 mS each cycle = update 25 times a second.
@@ -161,3 +195,5 @@ public class AnthonyWillBeMad extends LinearOpMode {
         }
 
     }
+
+}

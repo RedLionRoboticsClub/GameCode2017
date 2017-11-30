@@ -118,14 +118,12 @@ public class Bryce_SensorColor extends LinearOpMode
     addLog(String.format("Blue ", colorSensor.blue()));
     addLog(String.format("Hue", hsvValues[0]));
 
-      while (colorSensor.blue() >= 1)
-      {
+    if (colorSensor.red() >= 2) {
       //move right wheel forward
       addLog("Blue was spotted");
       motorThrowing(.5,5000);
       }
-    while (colorSensor.red() >= 1)
-      {
+    else {
       //move left wheel forward
       addLog("Red was spotted");
       motorThrowing(-.5,5000);

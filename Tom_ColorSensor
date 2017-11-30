@@ -118,16 +118,16 @@ public class Tom_SensorColor extends LinearOpMode
     addLog(String.format("Blue", colorSensor.blue()));
     addLog(String.format("Hue", hsvValues[0]));
 
-    if (colorSensor.blue() >= 2)
+    if (colorSensor.red() >= 2)
     {
       //move right wheel forward
-      addLog("Blue was spotted");
+      addLog("Red was spotted");
       motorThrowing(.5,5000);
     }
-    else if (colorSensor.red() >= 2)
+    else
     {
       //move left wheel forward
-      addLog("Red was spotted");
+      addLog("Blue was spotted");
       motorThrowing(-.5,5000);
     }
   }

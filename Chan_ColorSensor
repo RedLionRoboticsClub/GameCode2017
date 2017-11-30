@@ -57,88 +57,23 @@ public class Chan_SensorColor extends LinearOpMode
 
     motorRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
-    motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    motorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    motorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     motorThrow.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     waitForStart();
 
 
-    moveMotors(.3, .3, distance(56), distance(56)); // 56cm
+
 
     colorRead();
 
-    moveMotors(0,0,0,0);
+
 
     addLog("Thread done");
   }
 
-  /**
-   * Converts distance in cm to ticks based on rot and motor's encoder ticks.
-   * @param cm the distance of travel
-   * @return the number of ticks the motor will travel
-   */
-  int distance (double cm)
-  {
-    return (int) Math.round((MOTOR_TICKS / WHEEL_CIRCUMFERENCE) * cm);
-  }
 
-  /**
-   * converts degrees into centimeters relative to the bot
-   * @param deg angle in degrees (360)
-   * @return distance in centimeters
-   */
-  double angleToCm (double deg)
-  {
-    return Math.PI * 2 * ROBOT_WIDTH * (deg / 360);
-  }
-
-  void moveMotors (double powerL, double powerR, int posL, int posR) throws InterruptedException
-  {
-    motorLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
-    motorRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
-
-    waitOneFullHardwareCycle();
-
-    motorLeft.setTargetPosition(posL);
-    motorRight.setTargetPosition(posR);
-
-    motorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    motorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-    motorLeft.setPower(powerL);
-    motorRight.setPower(powerR);
-
-        /*while (((motorLeft.getTargetPosition() - motorLeft.getCurrentPosition() <= 500) &&
-                ((motorLeft.getTargetPosition() - motorLeft.getCurrentPosition()) % 100 == 0)) ||
-                ((motorRight.getTargetPosition() - motorRight.getCurrentPosition() <= 500) &&
-                        ((motorRight.getTargetPosition() - motorRight.getCurrentPosition()) % 100 == 0))
-        ){
-            powerL = powerL/1.5;
-            powerR = powerR/1.5;
-            motorLeft.setPower(powerL);
-            motorRight.setPower(powerR);
-        }*/
-
-
-    //sleep(5000);
-
-    while (motorLeft.getCurrentPosition() < posL || motorRight.getCurrentPosition() < posR)
-    {
-      Thread.sleep(20);
-    }
-
-  }
-  void moveNoEncoders (double powL, double powR, long time) throws InterruptedException
-  {
-    motorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    motorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-    motorLeft.setPower(powL);
-    motorRight.setPower(powR);
-
-    sleep(time);
-  }
 
   void motorThrowing (double power, long time) throws InterruptedException
   {
@@ -183,21 +118,17 @@ public class Chan_SensorColor extends LinearOpMode
     addLog(String.format("Blue ", colorSensor.blue()));
     addLog(String.format("Hue", hsvValues[0]));
 
-    if (colorSensor.blue() >= 1)
+    if (colorSensor.blue() >= 3)
     {
       //move right wheel forward
       addLog("Blue was spotted");
-      moveMotors(0, 0.15, 0, distance(6));
-      sleep(2000);
-      moveNoEncoders(0, -.15, 1000 );
+      motorThrowing(.5,5000);
     }
-    else if (colorSensor.red() >= 1)
+    else if (colorSensor.red() >= 3)
     {
       //move left wheel forward
       addLog("Red was spotted");
-      moveMotors(0, 0.15, 0, distance(6));
-      sleep(2000);
-      moveNoEncoders(0, -.15, 1000 );
+      motorThrowing(-.5,5000);
     }
   }
 }

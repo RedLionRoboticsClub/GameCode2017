@@ -13,8 +13,8 @@ import java.util.Vector;
 /**
  * Created by Lea & Kevin on 1/14/2017.
  */
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Chan_SensorColor", group ="Tests")
-public class Chan_SensorColor extends LinearOpMode
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Bryce_SensorColor", group ="Tests")
+public class Bryce_SensorColor extends LinearOpMode
 {
 
   DcMotor motorLeft;

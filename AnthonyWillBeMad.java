@@ -34,6 +34,8 @@ public class AnthonyWillBeMad extends LinearOpMode {
     //  final double    CLAW_SPEED      = 0.01 ;                            // sets rate to move servo
     final double    ARM_SPEED       = 0.01 ;                            // sets rate to move servo
 
+    double armPosition2 = robot.ARM_HOME2;
+
     @Override
     public void runOpMode() {
         double left;
@@ -74,8 +76,6 @@ public class AnthonyWillBeMad extends LinearOpMode {
                 float yValue = gamepad1.left_stick_y;
 
                 float xValue = gamepad1.right_stick_y;
-
-                ///the usadjieiwebiqeuhowfeodfqwiwewenqwnrnower jkdfnasikjfmxbnc liawekjsmhdbf iukjqd
 
 
                 xValue = Range.clip(xValue, -1, 1);
@@ -173,19 +173,24 @@ public class AnthonyWillBeMad extends LinearOpMode {
             // Use gamepad X & Y to open and close the claw
             if (gamepad2.x) {
                 armPosition += ARM_SPEED;
+                armPosition2 -= ARM_SPEED;
             }
             else if (gamepad2.y) {
                 armPosition -= ARM_SPEED;
+                armPosition2 += ARM_SPEED;
             }
 
             // Move both servos to new position.
             armPosition  = Range.clip(armPosition, robot.ARM_MIN_RANGE, robot.ARM_MAX_RANGE);
+            armPosition2  = Range.clip(armPosition2, robot.ARM_MIN_RANGE2, robot.ARM_MAX_RANGE2);
             robot.arm.setPosition(armPosition);
+            robot.arm2.setPosition(armPosition2);
             // clawPosition = Range.clip(clawPosition, robot.CLAW_MIN_RANGE, robot.CLAW_MAX_RANGE);
             // robot.claw.setPosition(clawPosition);
 
             // Send telemetry message to signify robot running;
             telemetry.addData("arm",   "%.2f", armPosition);
+            telemetry.addData("arm2",   "%.2f", armPosition2);
             // telemetry.addData("claw",  "%.2f", clawPosition);
             telemetry.update();
 

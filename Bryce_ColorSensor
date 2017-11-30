@@ -118,23 +118,17 @@ public class Chan_SensorColor extends LinearOpMode
     addLog(String.format("Blue ", colorSensor.blue()));
     addLog(String.format("Hue", hsvValues[0]));
 
-    if (colorSensor.blue() >= 3)
-    {
-      while (colorSensor.blue() >= 3)
+      while (colorSensor.blue() >= 1)
       {
       //move right wheel forward
       addLog("Blue was spotted");
       motorThrowing(.5,5000);
       }
-    } 
-    else if (colorSensor.red() >= 3)
-    {
-    while (colorSensor.red() >= 3)
+    while (colorSensor.red() >= 1)
       {
       //move left wheel forward
       addLog("Red was spotted");
       motorThrowing(-.5,5000);
-      }
-    } 
+      }    
   }
 }

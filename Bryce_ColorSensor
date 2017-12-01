@@ -113,20 +113,20 @@ public class Bryce_SensorColor extends LinearOpMode
     Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
     // send the info back to driver station using telemetry function.
     addLog(String.format("Clear", colorSensor.alpha()));
-    addLog(String.format("Red  ", colorSensor.red()));
+    addLog(String.format("Red", colorSensor.red()));
     addLog(String.format("Green", colorSensor.green()));
     addLog(String.format("Blue ", colorSensor.blue()));
     addLog(String.format("Hue", hsvValues[0]));
 
     if (colorSensor.red() >= 2) {
       //move right wheel forward
-      addLog("Red was spotted");
+      addLog("GLaDOS sees red");
       motorThrowing(.5,5000);
-      }
+    }
     else {
       //move left wheel forward
-      addLog("not Red was spotted");
+      addLog("GLaDOS sees not red");
       motorThrowing(-.5,5000);
-      }    
+    }
   }
 }

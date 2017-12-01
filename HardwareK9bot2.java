@@ -62,15 +62,19 @@ public class HardwareK9bot2
     public DcMotor  motorArm  = null;
     public Servo    arm       = null;
     public Servo    arm2      = null;
+    public Servo    armJ      = null;
     //public Servo    claw        = null;
 
     public final static double ARM_HOME = 0.4;
     public final static double ARM_HOME2 = 0.5;
+    public final static double ARM_HOMEJ = 0;
     //public final static double CLAW_HOME = 0.2;
     public final static double ARM_MIN_RANGE  = 0;
     public final static double ARM_MIN_RANGE2  = .5;
     public final static double ARM_MAX_RANGE  = 0.40;
     public final static double ARM_MAX_RANGE2  = 0.90;
+    public final static double ARM_MIN_RANGEJ  = 0;
+    public final static double ARM_MAX_RANGEJ  = 0.90;
     //public final static double CLAW_MIN_RANGE  = 0.20;
     //public final static double CLAW_MAX_RANGE  = 0.7;
 
@@ -114,9 +118,11 @@ public class HardwareK9bot2
         // Define and initialize ALL installed servos.
         arm  = hwMap.get(Servo.class, "crservo");
         arm2 = hwMap.get(Servo.class, "crservo2");
+        armJ = hwMap.get(Servo.class, "crservoJ");
         //      claw = hwMap.get(Servo.class, "claw");
         arm.setPosition(ARM_HOME);
         arm2.setPosition(ARM_HOME);
+        armJ.setPosition(ARM_HOME);
 //        claw.setPosition(CLAW_HOME);
     }
 }

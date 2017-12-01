@@ -32,7 +32,7 @@ public class AnthonyWillBeMad extends LinearOpMode {
     double          armPosition     = robot.ARM_HOME;                   // Servo safe position
     //   double          clawPosition    = robot.CLAW_HOME;                  // Servo safe position
     //  final double    CLAW_SPEED      = 0.01 ;                            // sets rate to move servo
-    final double    ARM_SPEED       = 0.01 ;                            // sets rate to move servo
+    final double    ARM_SPEED       = 0.05 ;                            // sets rate to move servo
 
     double armPosition2 = robot.ARM_HOME2;
 
@@ -47,7 +47,7 @@ public class AnthonyWillBeMad extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Driver");    //
+        telemetry.addData("Say", "Hello, My name is GLaDOS");    //
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)

@@ -67,7 +67,7 @@ public class HardwareK9bot2
 
     public final static double ARM_HOME = 0.4;
     public final static double ARM_HOME2 = 0.5;
-    public final static double ARM_HOMEJ = 0;
+    public final static double ARM_HOMEJ = 1;
     //public final static double CLAW_HOME = 0.2;
     public final static double ARM_MIN_RANGE  = 0;
     public final static double ARM_MIN_RANGE2  = .5;
@@ -122,7 +122,8 @@ public class HardwareK9bot2
         //      claw = hwMap.get(Servo.class, "claw");
         arm.setPosition(ARM_HOME);
         arm2.setPosition(ARM_HOME);
-        armJ.setPosition(ARM_HOME);
+        armJ.setPosition(ARM_HOMEJ);
 //        claw.setPosition(CLAW_HOME);
     }
 }
+

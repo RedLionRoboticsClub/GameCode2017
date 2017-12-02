@@ -171,11 +171,11 @@ public class AnthonyWillBeMad extends LinearOpMode {
             // armPosition -= ARM_SPEED;
 
             // Use gamepad X & Y to open and close the claw
-            if (gamepad2.x) {
+            if (gamepad2.y) {
                 armPosition += ARM_SPEED;
                 armPosition2 -= ARM_SPEED;
             }
-            else if (gamepad2.y) {
+            else if (gamepad2.x) {
                 armPosition -= ARM_SPEED;
                 armPosition2 += ARM_SPEED;
             }
@@ -200,5 +200,7 @@ public class AnthonyWillBeMad extends LinearOpMode {
         }
 
     }
+
+}
 
 }

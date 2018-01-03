@@ -131,38 +131,23 @@ public class AnthonyWillBeMad extends LinearOpMode {
                 }
 
             }
-            if (gamepad2.left_bumper) {
-                if (gamepad2.a) {
-                    robot.motorArm.setPower(-0.5);
-                } else if (gamepad2.b) {
-                    robot.motorArm.setPower(0.5);
-                } else {
-                    robot.motorArm.setPower(0);
-                }
-            }
 
-            else if (gamepad2.right_bumper) {
-                if (gamepad2.a) {
-                    robot.motorArm.setPower(-0.25);
-                } else if (gamepad2.b) {
-                    robot.motorArm.setPower(0.25);
-                } else {
-                    robot.motorArm.setPower(0);
-                }
-            }
 
-            else {
-                if (gamepad2.a) {
-                    robot.motorArm.setPower(-1);
-                } else if (gamepad2.b) {
-                    robot.motorArm.setPower(1);
-                } else {
-                    robot.motorArm.setPower(0);
-                }
+            {
+                float yValue = gamepad2.left_stick_y;
+
+                yValue = Range.clip(yValue, -1, 1);
+
+                robot.motorArm.setPower(-yValue);
             }
 
 
-
+            if (gamepad2.a) {
+                robot.motorFan.setPower(-1);
+            }
+            else  {
+                robot.motorFan.setPower(0);
+            }
 
             // Use gamepad Y & A raise and lower the arm
             // if (gamepad1.right_bumper)
@@ -200,7 +185,5 @@ public class AnthonyWillBeMad extends LinearOpMode {
         }
 
     }
-
-}
 
 }

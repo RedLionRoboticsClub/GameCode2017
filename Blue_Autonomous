@@ -33,6 +33,8 @@ import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -88,50 +90,310 @@ public class Blue_Autonomous extends LinearOpMode {
 
         // Step 1:  Drive forward for 3 seconds
 
-        robot.leftDrive.setPower(0);
-        robot.rightDrive.setPower(0);
+
 
         {
-            robot.rightClaw.setPosition(.4);
-            while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-                telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }}
-        sleep(10000);
+            robot.rightClaw.setPosition(.3);
+            }
+        sleep(1000);
+        {
+            robot.rightClaw.setPosition(.20);
+            }
+        sleep(1000);
+        {
+            robot.rightClaw.setPosition(.1);
+        }
+        sleep(1000);
+        {
+            robot.rightClaw.setPosition(0.02);
+        }
+    sleep(1000);
         try {
             colorRead();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        sleep(1000);
-            }
+        sleep(2000);
+
+        {robot.rightClaw.setPosition(1);
+        }
+        sleep(2000);
+
+        {
+            moveMotors(.25,.25,.25,.25,1800,1800,1800,1800,3000);
+        }
+        {
+            moveMotors(.25,0,.25,0,1150,0,1150,0,2000);
+        }
+        {
+            moveMotors(.25,.25,.25,.25,1337,1337,1337,1337,3000);
+        }
+        {
+            robot.arm.setPosition(1);
+            robot.arm2.setPosition(0);
+        }
+        sleep(2000);
+        {
+            reverseMotors(.25,.25,.25,.25,500,500,500,500,1000);
+        }
+        {
+            moveMotors(.25,.25,.25,.25,1500,1500,1500,1500,1000);
+        }
+        reverseMotors(.25,.25,.25,.25,500,500,500,500,1000);
+    }
+
+
     void motorThrowing (double power, long time) throws InterruptedException
     {
-        robot.leftArm.setPower(power);
+        robot.motorFR.setPower(power);
         runtime.reset();
         sleep(time);
 
-        robot.leftArm.setPower(0);
+        robot.motorFR.setPower(0);
         sleep(100);
     }
     public void colorRead() throws InterruptedException
     {
         robot.colorSensor.enableLed(true);
-        sleep(1000);
+        sleep(2000);
         float hsvValues[] = {0F, 0F, 0F};
         Color.RGBToHSV(robot.colorSensor.red() * 8, robot.colorSensor.green() * 8, robot.colorSensor.blue() * 8, hsvValues);
         // send the info back to driver station using telemetry function.
 
 
-        if (robot.colorSensor.blue() >= 2) {
+        if (robot.colorSensor.red() >= 2) {
             //move right wheel forward
 
-            motorThrowing(.5,500);
+            rotateTrue(.25,.25,.25,.25,500,500,500,500,500);
+            {robot.rightClaw.setPosition(1);
+            }
+            sleep(1000);
+            rotateFalse(.25,.25,.25,.25,500,500,500,500,500);
         }
         else {
             //move left wheel forward
 
-            motorThrowing(-.5,500);
+            rotateFalse(.25,.25,.25,.25,500,500,500,500,500);
+            {robot.rightClaw.setPosition(1);
+            }
+            sleep(1000);
+            rotateTrue(.25,.25,.25,.25,500,500,500,500,500);
         }
+    }
+    void moveMotors (double powerBL, double powerBR, double powerFL, double powerFR,
+                     int posBL, int posBR, int posFL, int posFR, int time) throws InterruptedException
+    {
+        robot.motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        robot.motorBL.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorBR.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorFR.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorFL.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        robot.motorBL.setTargetPosition(posBL);
+        robot.motorBR.setTargetPosition(posBR);
+        robot.motorFR.setTargetPosition(posFR);
+        robot.motorFL.setTargetPosition(posFL);
+
+        robot.motorBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        robot.motorBL.setPower(powerBL);
+        robot.motorBR.setPower(powerBR);
+        robot.motorFR.setPower(powerFR);
+        robot.motorFL.setPower(powerFL);
+        // BUSYWAIT... Don't show this to our CS professors :S
+
+        Thread.sleep(time);
+
+        /**      motorBR.setPower(0.0);
+         motorBL.setPower(0.0);
+         motorFL.setPower(0);
+         motorFR.setPower(0);
+         motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);             **/
+        // target has reached destination
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+//        motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    void reverseMotors (double powerBL, double powerBR, double powerFL, double powerFR,
+                     int posBL, int posBR, int posFL, int posFR, int time) throws InterruptedException
+    {
+        robot.motorBL.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.motorBR.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.motorFL.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.motorFR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        robot.motorBL.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorBR.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorFR.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorFL.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        robot.motorBL.setTargetPosition(posBL);
+        robot.motorBR.setTargetPosition(posBR);
+        robot.motorFR.setTargetPosition(posFR);
+        robot.motorFL.setTargetPosition(posFL);
+
+        robot.motorBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        robot.motorBL.setPower(powerBL);
+        robot.motorBR.setPower(powerBR);
+        robot.motorFR.setPower(powerFR);
+        robot.motorFL.setPower(powerFL);
+        // BUSYWAIT... Don't show this to our CS professors :S
+
+        Thread.sleep(time);
+
+        /**      motorBR.setPower(0.0);
+         motorBL.setPower(0.0);
+         motorFL.setPower(0);
+         motorFR.setPower(0);
+         motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);             **/
+        // target has reached destination
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+//        motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    void rotateFalse (double powerBL, double powerBR, double powerFL, double powerFR,
+                      int posBL, int posBR, int posFL, int posFR, int time) throws InterruptedException
+    {
+        robot.motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.motorBL.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.motorFR.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.motorFL.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        robot.motorBL.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorBR.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorFR.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorFL.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        robot.motorBL.setTargetPosition(posBL);
+        robot.motorBR.setTargetPosition(posBR);
+        robot.motorFR.setTargetPosition(posFR);
+        robot.motorFL.setTargetPosition(posFL);
+
+        robot.motorBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        robot.motorBL.setPower(powerBL);
+        robot.motorBR.setPower(powerBR);
+        robot.motorFR.setPower(powerFR);
+        robot.motorFL.setPower(powerFL);
+        // BUSYWAIT... Don't show this to our CS professors :S
+
+        Thread.sleep(time);
+
+        /**      motorBR.setPower(0.0);
+         motorBL.setPower(0.0);
+         motorFL.setPower(0);
+         motorFR.setPower(0);
+         motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);             **/
+        // target has reached destination
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+//        motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    void rotateTrue (double powerBL, double powerBR, double powerFL, double powerFR,
+                          int posBL, int posBR, int posFL, int posFR, int time) throws InterruptedException
+    {
+        robot.motorBR.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.motorFR.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        robot.motorBL.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorBR.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorFR.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorFL.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        robot.motorBL.setTargetPosition(posBL);
+        robot.motorBR.setTargetPosition(posBR);
+        robot.motorFR.setTargetPosition(posFR);
+        robot.motorFL.setTargetPosition(posFL);
+
+        robot.motorBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        robot.motorBL.setPower(powerBL);
+        robot.motorBR.setPower(powerBR);
+        robot.motorFR.setPower(powerFR);
+        robot.motorFL.setPower(powerFL);
+        // BUSYWAIT... Don't show this to our CS professors :S
+
+        Thread.sleep(time);
+
+        /**      motorBR.setPower(0.0);
+         motorBL.setPower(0.0);
+         motorFL.setPower(0);
+         motorFR.setPower(0);
+         motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);             **/
+        // target has reached destination
+//        motorLeft.setPower(0.0);
+//        motorRight.setPower(0.0);
+//        motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    void rightMotors(double powerBL, double powerBR, double powerFL, double powerFR,
+                    int posBL, int posBR, int posFL, int posFR, int Time) throws InterruptedException{
+        robot.motorBL.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.motorBR.setDirection(DcMotorSimple.Direction.FORWARD);
+        robot.motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.motorFR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        robot.motorBL.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorBR.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorFR.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        robot.motorFL.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        robot.motorBL.setTargetPosition(posBL);
+        robot.motorBR.setTargetPosition(posBR);
+        robot.motorFR.setTargetPosition(posFR);
+        robot.motorFL.setTargetPosition(posFL);
+
+        robot.motorBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        robot.motorBL.setPower(powerBL);
+        robot.motorBR.setPower(powerBR);
+        robot.motorFR.setPower(powerFR);
+        robot.motorFL.setPower(powerFL);
+        // BUSYWAIT... Don't show this to our CS professors :S
+
+            Thread.sleep(Time);
+
     }
         }

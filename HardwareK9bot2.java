@@ -60,19 +60,20 @@ public class HardwareK9bot2
     public DcMotor  motorBL   = null;
     public DcMotor  motorBR   = null;
     public DcMotor  motorArm  = null;
+    public DcMotor  motorFan  = null;
     public Servo    arm       = null;
     public Servo    arm2      = null;
     public Servo    armJ      = null;
     //public Servo    claw        = null;
 
-    public final static double ARM_HOME = 0.4;
-    public final static double ARM_HOME2 = 0.5;
+    public final static double ARM_HOME = 0.3;
+    public final static double ARM_HOME2 = 0.6;
     public final static double ARM_HOMEJ = 1;
     //public final static double CLAW_HOME = 0.2;
-    public final static double ARM_MIN_RANGE  = 0;
-    public final static double ARM_MIN_RANGE2  = .5;
-    public final static double ARM_MAX_RANGE  = 0.40;
-    public final static double ARM_MAX_RANGE2  = 0.90;
+    public final static double ARM_MIN_RANGE  = 0.3;
+    public final static double ARM_MIN_RANGE2  = .3;
+    public final static double ARM_MAX_RANGE  = 0.6;
+    public final static double ARM_MAX_RANGE2  = 0.60;
     public final static double ARM_MIN_RANGEJ  = 0;
     public final static double ARM_MAX_RANGEJ  = 0.90;
     //public final static double CLAW_MIN_RANGE  = 0.20;
@@ -97,8 +98,9 @@ public class HardwareK9bot2
         motorBL = hwMap.get(DcMotor.class, "motorBL");
         motorBR = hwMap.get(DcMotor.class, "motorBR");
         motorArm = hwMap.get(DcMotor.class, "motorArm");
-        motorFR.setDirection(DcMotor.Direction.REVERSE);
-        motorBR.setDirection(DcMotor.Direction.REVERSE);
+        motorFan = hwMap.get(DcMotor.class, "motorFan");
+        motorFL.setDirection(DcMotor.Direction.REVERSE);
+        motorBL.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
         motorFL.setPower(0);
@@ -106,6 +108,7 @@ public class HardwareK9bot2
         motorBL.setPower(0);
         motorBR.setPower(0);
         motorArm.setPower(0);
+        motorFan.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -114,6 +117,7 @@ public class HardwareK9bot2
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFan.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
         arm  = hwMap.get(Servo.class, "crservo");
@@ -121,7 +125,7 @@ public class HardwareK9bot2
         armJ = hwMap.get(Servo.class, "crservoJ");
         //      claw = hwMap.get(Servo.class, "claw");
         arm.setPosition(ARM_HOME);
-        arm2.setPosition(ARM_HOME);
+        arm2.setPosition(ARM_HOME2);
         armJ.setPosition(ARM_HOMEJ);
 //        claw.setPosition(CLAW_HOME);
     }

@@ -54,16 +54,30 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HardwarePushbot
 {
     /* Public OpMode members. */
-    public DcMotor  leftDrive   = null;
-    public DcMotor  rightDrive  = null;
-    public DcMotor  leftArm     = null;
+    public DcMotor  motorFL   = null;
+    public DcMotor  motorFR   = null;
+    public DcMotor  motorBL   = null;
+    public DcMotor  motorBR   = null;
+    public DcMotor  motorArm  = null;
+    public DcMotor  motorFan  = null;
     public ColorSensor colorSensor;
     public Servo    rightClaw   = null;
+    public Servo    arm       = null;
+    public Servo    arm2      = null;
 
     public static final double MID_SERVO       =  1 ;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
-
+    public final static double ARM_HOME = 0.0;
+    public final static double ARM_HOME2 = 1;
+    public final static double ARM_HOMEJ = 1;
+    //public final static double CLAW_HOME = 0.2;
+    public final static double ARM_MIN_RANGE  = 0.3;
+    public final static double ARM_MIN_RANGE2  = .3;
+    public final static double ARM_MAX_RANGE  = 0.6;
+    public final static double ARM_MAX_RANGE2  = 0.60;
+    public final static double ARM_MIN_RANGEJ  = 0;
+    public final static double ARM_MAX_RANGEJ  = 0.90;
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -79,29 +93,42 @@ public class HardwarePushbot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftDrive  = hwMap.get(DcMotor.class, "motorFL");
-        rightDrive = hwMap.get(DcMotor.class, "motorFR");
-        leftArm    = hwMap.get(DcMotor.class, "motorBL");
+        motorFL  = hwMap.get(DcMotor.class, "motorFL");
+        motorFR = hwMap.get(DcMotor.class, "motorFR");
+        motorBL = hwMap.get(DcMotor.class, "motorBL");
+        motorBR = hwMap.get(DcMotor.class, "motorBR");
+        motorArm = hwMap.get(DcMotor.class, "motorArm");
+        motorFan = hwMap.get(DcMotor.class, "motorFan");
+        motorFL.setDirection(DcMotor.Direction.REVERSE);
+        motorBL.setDirection(DcMotor.Direction.REVERSE);
         colorSensor = hwMap.get(ColorSensor.class, "color sensor");
-        leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Set all motors to zero power
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
-        leftArm.setPower(0);
+        motorFL.setPower(0);
+        motorFR.setPower(0);
+        motorBL.setPower(0);
+        motorBR.setPower(0);
+        motorArm.setPower(0);
+        motorFan.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFan.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         // Define and initialize ALL installed servos.
 
         rightClaw = hwMap.get(Servo.class, "crservoJ");
+        arm  = hwMap.get(Servo.class, "crservo");
+        arm2 = hwMap.get(Servo.class, "crservo2");
 
+        arm.setPosition(ARM_HOME);
+        arm2.setPosition(ARM_HOME2);
         rightClaw.setPosition(MID_SERVO);
     }
  }
-

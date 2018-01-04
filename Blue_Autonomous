@@ -45,18 +45,22 @@ public class Blue_Autonomous extends LinearOpMode {
 
         {
             robot.rightClaw.setPosition(.3);  //command to move the color sensor into position slowly
+            waitOneFullHardwareCycle();
             }
         sleep(1000);
         {
             robot.rightClaw.setPosition(.20);  //command continues previous
+            waitOneFullHardwareCycle();
             }
         sleep(1000);
         {
             robot.rightClaw.setPosition(.1);   //command continues previous
+            waitOneFullHardwareCycle();
         }
         sleep(1000);
         {
             robot.rightClaw.setPosition(0.02);  //command puts color sensor into place
+            waitOneFullHardwareCycle();
         }
     sleep(1000);
         try {
@@ -67,14 +71,16 @@ public class Blue_Autonomous extends LinearOpMode {
         sleep(2000);                            //This line of code tells the color sensor to read the color, knock one of the balls of and reset it's position... This method needs a waitOnefullhardwarecycle(); I think and a busywait
 
         {robot.rightClaw.setPosition(1);
+            waitOneFullHardwareCycle();
         }
         sleep(2000);                            //puts claw back up
 
         {
             moveMotors(.25,.25,.25,.25,1800,1800,1800,1800,3000);
+
         }                                        //Moves motor forward, all the methods need waitOnefullhardwarecycle(); the 9th variable is for the Threadsleep(Time) which might be replacable with a busy wait    
         {
-            moveMotors(.25,0,.25,0,1150,0,1150,0,2000);
+            moveMotors(.25,0,.25,0,1400,0,1400,0,2000);
         }                                           //turns robot, this is where fixing that one wheel that's spazzing out is crucial, We want the boxes to go in at an angle
         {               
             moveMotors(.25,.25,.25,.25,1337,1337,1337,1337,3000);
@@ -90,7 +96,7 @@ public class Blue_Autonomous extends LinearOpMode {
         {
             moveMotors(.25,.25,.25,.25,1500,1500,1500,1500,1000);
         }                                          //rams the cryptobox so that it's more likely that we get it in
-        reverseMotors(.25,.25,.25,.25,500,500,500,500,1000);
+        reverseMotors(.25,.25,.25,.25,250,250,250,250,1000);
     }                                               //backs away from the box so that we aren't touching
 
 
@@ -224,6 +230,7 @@ public class Blue_Autonomous extends LinearOpMode {
 //        motorRight.setPower(0.0);
 //        motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        waitOneFullHardwareCycle();
     }
     void rotateFalse (double powerBL, double powerBR, double powerFL, double powerFR,
                       int posBL, int posBR, int posFL, int posFR, int time) throws InterruptedException     //counterclockwise
@@ -270,6 +277,7 @@ public class Blue_Autonomous extends LinearOpMode {
 //        motorRight.setPower(0.0);
 //        motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        waitOneFullHardwareCycle();
     }
     void rotateTrue (double powerBL, double powerBR, double powerFL, double powerFR,
                           int posBL, int posBR, int posFL, int posFR, int time) throws InterruptedException   //clockwise
@@ -316,6 +324,7 @@ public class Blue_Autonomous extends LinearOpMode {
 //        motorRight.setPower(0.0);
 //        motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        waitOneFullHardwareCycle();
     }
     void rightMotors(double powerBL, double powerBR, double powerFL, double powerFR,
                     int posBL, int posBR, int posFL, int posFR, int Time) throws InterruptedException{
@@ -347,6 +356,7 @@ public class Blue_Autonomous extends LinearOpMode {
         // BUSYWAIT... Don't show this to our CS professors :S
 
             Thread.sleep(Time);
-
+        waitOneFullHardwareCycle();
     }
         }
+

@@ -132,6 +132,13 @@ public class AnthonyWillBeMad extends LinearOpMode {
 
             }
 
+            {
+             float relicy = gamepad2.right_stick_y;
+
+             relicy = Range.clip(relicy, -1, 1);
+
+             robot.relic.setPower(relicy);
+            }
 
             {
                 float yValue = gamepad2.left_stick_y;

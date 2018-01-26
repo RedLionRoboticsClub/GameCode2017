@@ -143,6 +143,7 @@ public class RedForward_Autonomous extends LinearOpMode {
                     vustate = 3;
                 } else
                     vustate = 0;
+
             }
         }
 
@@ -160,13 +161,13 @@ public class RedForward_Autonomous extends LinearOpMode {
 
         {
             robot.motorArm.setPower(1);
-            Thread.sleep(800);
+            Thread.sleep(1000);
         }
 
 
         {
             robot.motorArm.setPower(0);
-            Thread.sleep(800);
+            Thread.sleep(1000);
         }
 
 
@@ -176,7 +177,7 @@ public class RedForward_Autonomous extends LinearOpMode {
         }
 
 
-        sleep(250);
+        sleep(200);
 
 
         {
@@ -194,7 +195,7 @@ public class RedForward_Autonomous extends LinearOpMode {
         }
 
 
-        sleep(1000);
+        sleep(200);
 
 
         {
@@ -203,22 +204,22 @@ public class RedForward_Autonomous extends LinearOpMode {
         }
 
 
-        sleep(250);
+        sleep(200);
 
 
         try {
             colorRead();
         } catch (InterruptedException e) {
             e.printStackTrace();
-            telemetry.addData("FR", robot.motorFR.getCurrentPosition());
-            telemetry.addData("FL", robot.motorFL.getCurrentPosition());
-            telemetry.addData("BR", robot.motorBR.getCurrentPosition());
-            telemetry.addData("BL", robot.motorBL.getCurrentPosition());
-            telemetry.update();
+            //telemetry.addData("FR", robot.motorFR.getCurrentPosition());
+            //telemetry.addData("FL", robot.motorFL.getCurrentPosition());
+            //telemetry.addData("BR", robot.motorBR.getCurrentPosition());
+            //telemetry.addData("BL", robot.motorBL.getCurrentPosition());
+            //telemetry.update();
         }
 
 
-        sleep(500);                            //This line of code tells the color sensor to read the color, knock one of the balls of and reset it's position... This method needs a waitOnefullhardwarecycle(); I think and a busywait
+        sleep(200);                            //This line of code tells the color sensor to read the color, knock one of the balls of and reset it's position... This method needs a waitOnefullhardwarecycle(); I think and a busywait
 
 
         {
@@ -227,7 +228,7 @@ public class RedForward_Autonomous extends LinearOpMode {
         }
 
 
-        sleep(250);                            //puts claw back up
+        sleep(200);                            //puts claw back up
 
 
         {
@@ -252,34 +253,26 @@ public class RedForward_Autonomous extends LinearOpMode {
         }
 
 
-
-
-
-
         if (vustate == 1) {
             reverseMotors(.15,.15,.15,.15,2800,2800,2800,2800,2300);
+            //telemetry.addData("Vustate seen", "Left");
+            //telemetry.update();
         }
         else if (vustate == 2){
             reverseMotors(.15,.15,.15,.15,2200,2200,2200,2200,2200);
+            //telemetry.addData("Vustate seen", "Center");
+            //telemetry.update();
         }
         else if(vustate == 3){
             reverseMotors(.15,.15,.15,.15,1400,1400,1400,1400,1400);
+            //telemetry.addData("Vustate seen", "Right");
+            //telemetry.update();
         }
         else{
             reverseMotors(.15,.15,.15,.15,2200,2200,2200,2200,2200);
+            //telemetry.addData("Vustate seen", "None");
+            //telemetry.update();
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
         {
             rotateFalse(.25, .25, .25, .25, 1800, 1800, 1800, 1800, 1800);
@@ -361,6 +354,8 @@ public class RedForward_Autonomous extends LinearOpMode {
         float hsvValues[] = {0F, 0F, 0F};
         Color.RGBToHSV(robot.colorSensor.red() * 8, robot.colorSensor.green() * 8, robot.colorSensor.blue() * 8, hsvValues);
         //This gives the robot time to turn on the led and read the colorSensor stuff
+        telemetry.addData("Colors (red , blue):",robot.colorSensor.red() + robot.colorSensor.blue());
+        telemetry.update();
 
 
         if (robot.colorSensor.red() >= 2) {
@@ -373,6 +368,8 @@ public class RedForward_Autonomous extends LinearOpMode {
             sleep(1000);
             //rotates the robot counterclockwise
             rotateTrue(.25,.25,.25,.25,500,500,500,500,250);
+            //telemetry.addData("Color seen", "red");
+            //telemetry.update();
         }
         else if (robot.colorSensor.blue() >=2){
 
@@ -382,10 +379,14 @@ public class RedForward_Autonomous extends LinearOpMode {
             }                   //moves the robot counterclockwise
             sleep(1000);
             rotateFalse(.25,.25,.25,.25,500,500,500,500,250);
+            //telemetry.addData("Color seen", "blue");
+            //telemetry.update();
         }                               //moves the robot clockwise
         else{
             moveMotors(0,0,0,0,0,0,0,0,1000);
             robot.rightClaw.setPosition(1);
+            //telemetry.addData("Color seen", "none");
+            //telemetry.update();
         }
 
 
@@ -437,13 +438,13 @@ public class RedForward_Autonomous extends LinearOpMode {
                 (robot.motorFR.isBusy() && robot.motorFL.isBusy() && robot.motorBR.isBusy() && robot.motorBL.isBusy())) {
 
             // Display it for the driver.
-            telemetry.addData("Path1",  "Running to %7d :%7d", posBR,  posBL, posFR, posFL);
-            telemetry.addData("Path2",  "Running at %7d :%7d",
-                    robot.motorFR.getCurrentPosition(),
-                    robot.motorFL.getCurrentPosition(),
-                    robot.motorBR.getCurrentPosition(),
-                    robot.motorBL.getCurrentPosition());
-            telemetry.update();
+            //telemetry.addData("Path1",  "Running to %7d :%7d", posBR,  posBL, posFR, posFL);
+            //telemetry.addData("Path2",  "Running at %7d :%7d",
+                   // robot.motorFR.getCurrentPosition(),
+                    //robot.motorFL.getCurrentPosition(),
+                   // robot.motorBR.getCurrentPosition(),
+                   // robot.motorBL.getCurrentPosition());
+            //telemetry.update();
         }
 
         // Stop all motion;
@@ -506,13 +507,13 @@ public class RedForward_Autonomous extends LinearOpMode {
                 (robot.motorFR.isBusy() && robot.motorFL.isBusy() && robot.motorBR.isBusy() && robot.motorBL.isBusy())) {
 
             // Display it for the driver.
-            telemetry.addData("Path1",  "Running to %7d :%7d", posBR,  posBL, posFR, posFL);
-            telemetry.addData("Path2",  "Running at %7d :%7d",
-                    robot.motorFR.getCurrentPosition(),
-                    robot.motorFL.getCurrentPosition(),
-                    robot.motorBR.getCurrentPosition(),
-                    robot.motorBL.getCurrentPosition());
-            telemetry.update();
+            //telemetry.addData("Path1",  "Running to %7d :%7d", posBR,  posBL, posFR, posFL);
+            //telemetry.addData("Path2",  "Running at %7d :%7d",
+                   // robot.motorFR.getCurrentPosition(),
+                   // robot.motorFL.getCurrentPosition(),
+                  //  robot.motorBR.getCurrentPosition(),
+                   // robot.motorBL.getCurrentPosition());
+            //telemetry.update();
         }
 
         // Stop all motion;
@@ -576,13 +577,13 @@ public class RedForward_Autonomous extends LinearOpMode {
                     (robot.motorFR.isBusy() && robot.motorFL.isBusy() && robot.motorBR.isBusy() && robot.motorBL.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", posBR,  posBL, posFR, posFL);
-                telemetry.addData("Path2",  "Running at %7d :%7d",
-                        robot.motorFR.getCurrentPosition(),
-                        robot.motorFL.getCurrentPosition(),
-                        robot.motorBR.getCurrentPosition(),
-                        robot.motorBL.getCurrentPosition());
-                telemetry.update();
+                //telemetry.addData("Path1",  "Running to %7d :%7d", posBR,  posBL, posFR, posFL);
+                //telemetry.addData("Path2",  "Running at %7d :%7d",
+                        //robot.motorFR.getCurrentPosition(),
+                        //robot.motorFL.getCurrentPosition(),
+                        //robot.motorBR.getCurrentPosition(),
+                        //robot.motorBL.getCurrentPosition());
+                //telemetry.update();
             }
 
             // Stop all motion;
@@ -660,13 +661,13 @@ public class RedForward_Autonomous extends LinearOpMode {
                 (robot.motorFR.isBusy() && robot.motorFL.isBusy() && robot.motorBR.isBusy() && robot.motorBL.isBusy())) {
 
             // Display it for the driver.
-            telemetry.addData("Path1",  "Running to %7d :%7d", posBR,  posBL, posFR, posFL);
-            telemetry.addData("Path2",  "Running at %7d :%7d",
-                    robot.motorFR.getCurrentPosition(),
-                    robot.motorFL.getCurrentPosition(),
-                    robot.motorBR.getCurrentPosition(),
-                    robot.motorBL.getCurrentPosition());
-            telemetry.update();
+            //telemetry.addData("Path1",  "Running to %7d :%7d", posBR,  posBL, posFR, posFL);
+            //telemetry.addData("Path2",  "Running at %7d :%7d",
+                    //robot.motorFR.getCurrentPosition(),
+                    //robot.motorFL.getCurrentPosition(),
+                    //robot.motorBR.getCurrentPosition(),
+                    //robot.motorBL.getCurrentPosition());
+            //telemetry.update();
         }
 
         // Stop all motion;
@@ -739,13 +740,13 @@ public class RedForward_Autonomous extends LinearOpMode {
                 (robot.motorFR.isBusy() && robot.motorFL.isBusy() && robot.motorBR.isBusy() && robot.motorBL.isBusy())) {
 
             // Display it for the driver.
-            telemetry.addData("Path1",  "Running to %7d :%7d", posBR,  posBL, posFR, posFL);
-            telemetry.addData("Path2",  "Running at %7d :%7d",
-                    robot.motorFR.getCurrentPosition(),
-                    robot.motorFL.getCurrentPosition(),
-                    robot.motorBR.getCurrentPosition(),
-                    robot.motorBL.getCurrentPosition());
-            telemetry.update();
+            //telemetry.addData("Path1",  "Running to %7d :%7d", posBR,  posBL, posFR, posFL);
+            //telemetry.addData("Path2",  "Running at %7d :%7d",
+                    //robot.motorFR.getCurrentPosition(),
+                    //robot.motorFL.getCurrentPosition(),
+                   // robot.motorBR.getCurrentPosition(),
+                   // robot.motorBL.getCurrentPosition());
+           // telemetry.update();
         }
 
         // Stop all motion;
@@ -786,6 +787,8 @@ public class RedForward_Autonomous extends LinearOpMode {
     // target has reached destination
 //        motorLeft.setPower(0.0);
 //        motorRight.setPower(0.0);
+
+
 //        motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 }
